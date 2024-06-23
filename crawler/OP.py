@@ -1,16 +1,16 @@
-import urllib.request
-import ssl
-import re
+import requests
 from bs4 import BeautifulSoup
 from collections import defaultdict
+import re
 
 
 class Parser:
     @staticmethod
     def get_words_with_links(url):
-        context = ssl._create_unverified_context()
-        html_contents_of_page = urllib.request.urlopen(url, context=context).read().decode('utf-8')
-        soup = BeautifulSoup(html_contents_of_page, 'html.parser')
+        response = requests.get(url)
+        # response.raise_for_status()
+
+        soup = BeautifulSoup(response.text, 'lxml')
 
         words_with_links = {}
 
@@ -28,18 +28,19 @@ class Parser:
 
     @staticmethod
     def get_all_words(url):
-        context = ssl._create_unverified_context()
-        html_contents_of_page = urllib.request.urlopen(url, context=context).read().decode('utf-8')
-        soup = BeautifulSoup(html_contents_of_page, 'html.parser')
+        response = requests.get(url)
+        # response.raise_for_status()
+
+        soup = BeautifulSoup(response.text, 'lxml')
 
         word_count = defaultdict(int)
 
         body_content = soup.find('div', id='bodyContent')
         if body_content:
-            for text in body_content.stripped_strings:
-                words = re.findall(r'\b\w+\b', text.lower())
-                for word in words:
-                    word_count[word] += 1
+            text_content = ' '.join(body_content.stripped_strings)
+            words = re.findall(r'\b\w+\b', text_content.lower())
+            for word in words:
+                word_count[word] += 1
 
         return dict(word_count)
 
