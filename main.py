@@ -7,9 +7,6 @@ from ui.PathVisualisation import PathVisualisation
 
 def main(page: ft.Page):
     page.title = "Wikipedia crawler"
-    page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.horizontal_alignment = ft.MainAxisAlignment.CENTER
-    page.adaptive = False
 
     dialog = DialogWindow()
     visualisation_column = PathVisualisation()
