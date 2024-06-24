@@ -1,6 +1,6 @@
 import math
 
-from WikiParser import *
+from crawler.WikiParser import *
 from crawler.MaxHeap import MaxHeap
 
 

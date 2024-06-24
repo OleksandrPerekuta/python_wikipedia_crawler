@@ -3,6 +3,8 @@ import webbrowser
 
 import flet as ft
 
+from crawler.WikiParser import WikiParser
+
 
 class PathVisualisation(ft.Column):
     def __init__(self):
@@ -25,7 +27,7 @@ class PathVisualisation(ft.Column):
             self.controls.append(line)
 
         circle = ft.Container(
-            ft.Text(node[0].capitalize(), size=self.text_size/1.5, color=ft.colors.BLACK),
+            ft.Text(WikiParser.get_wiki_url_name(node[1]), size=self.text_size/1.5, color=ft.colors.BLACK),
             width=100,
             height=100,
             bgcolor=ft.colors.WHITE,
