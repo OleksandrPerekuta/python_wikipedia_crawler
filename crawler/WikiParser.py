@@ -9,7 +9,6 @@ class WikiParser:
     @staticmethod
     def get_words_with_links(url):
         response = requests.get(url)
-        # response.raise_for_status()
 
         soup = BeautifulSoup(response.text, 'lxml')
 
@@ -30,7 +29,6 @@ class WikiParser:
     @staticmethod
     def get_all_words(url):
         response = requests.get(url)
-        # response.raise_for_status()
 
         soup = BeautifulSoup(response.text, 'lxml')
 

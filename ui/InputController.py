@@ -4,6 +4,7 @@ from ui.DialogWindow import DialogWindow
 from ui.PathVisualisation import PathVisualisation
 from crawler.CrawlerBase import CrawlerBase
 
+
 class InputController(ft.Column):
     def __init__(self, page: ft.Page, visualisation_column: PathVisualisation, dialog: DialogWindow):
         super().__init__()
@@ -81,22 +82,19 @@ class InputController(ft.Column):
             self.visualisationColumn.clear()
             return
 
-
         if not path:
             self.dialog.set_message("Path not found")
             self.dialog.show()
             self.visualisationColumn.clear()
             return
 
-        #self.visualisationColumn.set_path(path)
-
-
 
     def validate_links(self, target, source):
         if not target or not source:
             return False
 
-        if not target.startswith("https://en.wikipedia.org/wiki/") or not source.startswith("https://en.wikipedia.org/wiki/"):
+        if not target.startswith("https://en.wikipedia.org/wiki/") or not source.startswith(
+                "https://en.wikipedia.org/wiki/"):
             return False
 
         return True
