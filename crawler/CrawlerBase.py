@@ -1,10 +1,11 @@
 import math
 
-from crawler.WikiParser import WikiParser
+from WikiParser import *
+from crawler.MaxHeap import MaxHeap
 
 
 class CrawlerBase:
-    def __init__(self, ):
+    def __init__(self):
         self.__endpoint_data = None
         self.__start_page = None
         self.__end_page = None
@@ -35,22 +36,31 @@ class CrawlerBase:
     def __get_next(self, page_link: str):
         links_map = WikiParser.get_words_with_links(page_link)
 
-        similarity_map = {}
+        if len(links_map) == 0:
+            for _ in range(0, 3):
+                links_map = WikiParser.get_words_with_links(page_link)
+                if len(links_map) != 0:
+                    break
+
+        if len(links_map) == 0:
+            raise Exception("Something went wrong")
+
+        max_heap = MaxHeap()
         for key, value in links_map.items():
             if self.__end_page in value:
                 self.__visited_links.append(value)
                 return key, value
 
-            similarity_map[key] = self.__similarity_rate(key)
+            max_heap.push((key, self.__similarity_rate(key)))
 
-        similarity_list = sorted(similarity_map.items(), key=lambda item: item[1], reverse=True)
+        first_word = max_heap.peek()[0]
+        for _ in range(0, len(max_heap)):
+            max_word = max_heap.pop()[0]
+            if links_map[max_word] not in self.__visited_links:
+                self.__visited_links.append(links_map[max_word])
+                return max_word, links_map[max_word]
 
-        for word in similarity_list:
-            if links_map[word[0]] not in self.__visited_links:
-                self.__visited_links.append(links_map[word[0]])
-                return word[0], links_map[word[0]]
-
-        return similarity_list[0], links_map[similarity_list[0]]
+        return first_word, links_map[first_word]
 
     @staticmethod
     def __sigmoid_normalize(x):
