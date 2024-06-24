@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from collections import defaultdict
 import re
+import urllib.parse
 
 
 class WikiParser:
@@ -48,3 +49,11 @@ class WikiParser:
     def get_formatted_link(link: str):
         start, sep, end = link.partition("/wiki")
         return "https://en.wikipedia.org" + sep + end
+
+    @staticmethod
+    def get_wiki_url_name(url):
+        wiki_index = url.find("/wiki/")
+        cut_link = url[wiki_index + 6:]
+        formatted_string = cut_link.replace('_', ' ')
+        decoded_link = urllib.parse.unquote(formatted_string)
+        return decoded_link
