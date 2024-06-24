@@ -68,13 +68,19 @@ class InputController(ft.Column):
             return
 
         self.visualisationColumn.clear()
-        path = CrawlerBase().crawl(
-            self.sourceInput.value,
-            self.targetInput.value,
-            int(self.slider.value),
-            self.visualisationColumn.add_node
-        )
-        print(path)
+        try:
+            path = CrawlerBase().crawl(
+                self.sourceInput.value,
+                self.targetInput.value,
+                int(self.slider.value),
+                self.visualisationColumn.add_node
+            )
+        except Exception as e:
+            self.dialog.set_message(str(e))
+            self.dialog.show()
+            self.visualisationColumn.clear()
+            return
+
 
         if not path:
             self.dialog.set_message("Path not found")
