@@ -2,7 +2,7 @@ import flet as ft
 
 from ui.DialogWindow import DialogWindow
 from ui.PathVisualisation import PathVisualisation
-
+from crawler.CrawlerBase import CrawlerBase
 
 class InputController(ft.Column):
     def __init__(self, page: ft.Page, visualisation_column: PathVisualisation, dialog: DialogWindow):
@@ -18,7 +18,7 @@ class InputController(ft.Column):
         self.width_factor = 0.25
 
         self.targetText = ft.Text("Target page:", size=self.text_size, width=120)
-        self.targetInput = ft.TextField(hint_text="Enter URL")
+        self.targetInput = ft.TextField(hint_text="Enter URL", value="https://en.wikipedia.org/wiki/Adolf_Hitler")
         self.targetRow = ft.Row(
             [
                 self.targetText,
@@ -27,11 +27,25 @@ class InputController(ft.Column):
         )
 
         self.sourceText = ft.Text("Source page:", size=self.text_size, width=120)
-        self.sourceInput = ft.TextField(hint_text="Enter URL")
+        self.sourceInput = ft.TextField(hint_text="Enter URL", value="https://en.wikipedia.org/wiki/Italy")
         self.sourceRow = ft.Row(
             [
                 self.sourceText,
                 self.sourceInput,
+            ],
+        )
+        self.slider = ft.Slider(min=2, max=400, value=2, width=320, height=40, divisions=398)
+        self.sliderText = ft.Text("Depth: 2", size=self.text_size, width=120)
+
+        def on_change(e):
+            self.sliderText.value = f"Depth: {int(e.control.value)}"
+            self.sliderText.update()
+
+        self.slider.on_change = on_change
+        self.sliderRow = ft.Row(
+            [
+                self.sliderText,
+                self.slider,
             ],
         )
 
@@ -41,6 +55,7 @@ class InputController(ft.Column):
         self.controls = [
             self.targetRow,
             self.sourceRow,
+            self.sliderRow,
             self.searchButton,
         ]
 
@@ -52,12 +67,23 @@ class InputController(ft.Column):
             self.dialog.show()
             return
 
-        try:
-            pass # тут будемо викликати функцію пошуку шляху
+        self.visualisationColumn.clear()
+        path = CrawlerBase().crawl(
+            self.sourceInput.value,
+            self.targetInput.value,
+            int(self.slider.value),
+            self.visualisationColumn.add_node
+        )
+        print(path)
 
-        except Exception as e:
-            self.dialog.set_message(e.__str__())
+        if not path:
+            self.dialog.set_message("Path not found")
             self.dialog.show()
+            self.visualisationColumn.clear()
+            return
+
+        #self.visualisationColumn.set_path(path)
+
 
 
     def validate_links(self, target, source):
