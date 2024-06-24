@@ -4,7 +4,7 @@ from collections import defaultdict
 import re
 
 
-class Parser:
+class WikiParser:
     @staticmethod
     def get_words_with_links(url):
         response = requests.get(url)
@@ -22,7 +22,7 @@ class Parser:
                     word = a_tag.get_text()
                     clean_word = re.sub(r'\W+', '', word).lower()
                     if clean_word:
-                        words_with_links[clean_word] = link
+                        words_with_links[clean_word] = WikiParser.get_formatted_link(link)
 
         return words_with_links
 
@@ -44,11 +44,7 @@ class Parser:
 
         return dict(word_count)
 
-
-url = "https://en.wikipedia.org/wiki/Peter_Higgs"
-words_with_links = Parser.get_words_with_links(url)
-all_words = Parser.get_all_words(url)
-
-print("Words with Links:", words_with_links)
-# мапа слова и количества появлений
-print("All Words:", all_words)
+    @staticmethod
+    def get_formatted_link(link: str):
+        start, sep, end = link.partition("/wiki")
+        return "https://en.wikipedia.org" + sep + end
