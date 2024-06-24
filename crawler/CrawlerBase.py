@@ -1,27 +1,31 @@
 import math
 
-from WikiParser import *
+from crawler.WikiParser import WikiParser
 
 
 class CrawlerBase:
-    def __init__(self):
+    def __init__(self, ):
         self.__endpoint_data = None
         self.__start_page = None
         self.__end_page = None
         self.__endpoint_data = None
         self.__visited_links = None
 
-    def crawl(self, start_link: str, endpoint_link: str, pages_depth: int):
+    def crawl(self, start_link: str, endpoint_link: str, pages_depth: int, add_node: callable = None):
         self.__start_page = str(start_link)
         self.__end_page = str(endpoint_link)
         self.__endpoint_data = WikiParser.get_all_words(endpoint_link)
         self.__visited_links = [start_link]
 
-        next_page = "", start_link
+        next_page = "Start", start_link
         print("Start: ", next_page[1])
+        if add_node:
+            add_node(next_page, to_paint=False)
 
         for _ in range(1, pages_depth + 1):
             next_page = self.__get_next(next_page[1])
+            if add_node:
+                add_node(next_page)
             print("\t--", next_page)
             if self.__end_page == next_page[1]:
                 return self.__visited_links
