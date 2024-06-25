@@ -4,7 +4,21 @@ from ui.DialogWindow import DialogWindow
 from ui.PathVisualisation import PathVisualisation
 from crawler.CrawlerBase import CrawlerBase
 
+
 class InputController(ft.Column):
+    """
+    Manages the input controls for specifying the source and target Wikipedia pages, and initiating
+    the crawl process. This class handles user interactions and manages the visual feedback and
+    error handling through associated dialog windows and visualization components.
+
+    Extends:
+           ft.Column: Inherits from Flet's Column class.
+
+    Attributes:
+        page (ft.Page): The Flet page context where this controller is being used.
+        visualisationColumn (PathVisualisation): The visualization component where the crawl results are displayed.
+        dialog (DialogWindow): The dialog window for showing messages and alerts.
+    """
     def __init__(self, page: ft.Page, visualisation_column: PathVisualisation, dialog: DialogWindow):
         super().__init__()
         self.page = page
@@ -38,6 +52,12 @@ class InputController(ft.Column):
         self.sliderText = ft.Text("Depth: 2", size=self.text_size, width=120)
 
         def on_change(e):
+            """
+            Callback function to update the displayed depth value when the slider is adjusted.
+
+            Args:
+                e (ft.Event): The event object containing the new slider value.
+            """
             self.sliderText.value = f"Depth: {int(e.control.value)}"
             self.sliderText.update()
 
@@ -60,6 +80,10 @@ class InputController(ft.Column):
         ]
 
     def search(self):
+        """
+        Initiates the search operation. Validates URLs, clears previous visualizations, handles the crawl process,
+        and manages error and status messaging through the dialog window.
+        """
         valid = self.validate_links(self.targetInput.value, self.sourceInput.value)
 
         if not valid:
@@ -81,22 +105,30 @@ class InputController(ft.Column):
             self.visualisationColumn.clear()
             return
 
-
         if not path:
             self.dialog.set_message("Path not found")
             self.dialog.show()
             self.visualisationColumn.clear()
             return
 
-        #self.visualisationColumn.set_path(path)
-
-
+        # self.visualisationColumn.set_path(path)
 
     def validate_links(self, target, source):
+        """
+        Validates the provided URLs to ensure they are in the expected format for Wikipedia.
+
+        Args:
+            target (str): The target Wikipedia URL.
+            source (str): The source Wikipedia URL.
+
+        Returns:
+            bool: True if both URLs are valid Wikipedia URLs, False otherwise.
+        """
         if not target or not source:
             return False
 
-        if not target.startswith("https://en.wikipedia.org/wiki/") or not source.startswith("https://en.wikipedia.org/wiki/"):
+        if not target.startswith("https://en.wikipedia.org/wiki/") or not source.startswith(
+                "https://en.wikipedia.org/wiki/"):
             return False
 
         return True

@@ -2,6 +2,13 @@ import flet as ft
 
 
 class DialogWindow(ft.Container):
+    """
+    A custom dialog window class for displaying messages with an 'OK' button. This dialog is implemented
+    as a Flet container, which can show a message and provides a button for the user to close the dialog.
+
+    Extends:
+        ft.Container: Inherits from Flet's Container class.
+    """
     def __init__(self):
         self.message = ft.Text("Dialog window", size=20, color=ft.colors.BLACK)
         self.ok_button = ft.ElevatedButton("OK", width=80, height=30, on_click=lambda _: self.hide())
@@ -29,11 +36,9 @@ class DialogWindow(ft.Container):
         self.message.value = message
 
     def show(self):
-        print("Showing dialog")
         self.visible = True
         self.update()
 
     def hide(self):
-        print("Hiding dialog")
         self.visible = False
         self.update()

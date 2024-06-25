@@ -6,6 +6,18 @@ from ui.PathVisualisation import PathVisualisation
 
 
 def main(page: ft.Page):
+    """
+   Initialize the Flet app with a UI for a Wikipedia crawler. This function sets up the user interface
+   components and interactions on the provided Flet page.
+
+   Args:
+   page (ft.Page): The main page of the Flet application where UI components are added.
+
+   This function creates and configures the following UI components:
+   - DialogWindow: A modal dialog window for displaying error messages.
+   - PathVisualisation: A component for visualizing the path of Wikipedia pages crawled.
+   - InputController: A controller to handle user inputs and control other UI components.
+   """
     page.title = "Wikipedia crawler"
 
     dialog = DialogWindow()
