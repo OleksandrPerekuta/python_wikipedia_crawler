@@ -74,6 +74,10 @@ class InputController(ft.Column):
         ]
 
     def search(self):
+        """
+        Initiates the search operation. Validates URLs, clears previous visualizations, handles the crawl process,
+        and manages error and status messaging through the dialog window.
+        """
         valid = self.validate_links(self.targetInput.value, self.sourceInput.value)
 
         if not valid:
@@ -107,6 +111,16 @@ class InputController(ft.Column):
 
 
     def validate_links(self, target, source):
+        """
+           Validates the provided URLs to ensure they are in the expected format for Wikipedia.
+
+           Args:
+               target (str): The target Wikipedia URL.
+               source (str): The source Wikipedia URL.
+
+           Returns:
+               bool: True if both URLs are valid Wikipedia URLs, False otherwise.
+           """
         if not target or not source:
             return False
 
