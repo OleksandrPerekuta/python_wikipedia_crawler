@@ -67,8 +67,8 @@ class InputController(ft.Column):
 
         self.border_radius = ft.border_radius.all(10)
         self.controls = [
-            self.targetRow,
             self.sourceRow,
+            self.targetRow,
             self.sliderRow,
             self.searchButton,
         ]
