@@ -38,8 +38,8 @@ class CrawlerBase:
         self.__visited_links = [start_link]
 
         next_page = 'Start', start_link
-        print('Source: ', next_page[1])
-        print('Target: ', next_page[1])
+        print('Source: ', start_link)
+        print('Target: ', endpoint_link)
         print('--------------------------------------------------------------')
         print('\tStart: ', next_page[1])
         if add_node:
@@ -125,8 +125,8 @@ class CrawlerBase:
             intersection = set_a.intersection(set_b)
             union = set_a.union(set_b)
             result_map[word] = len(intersection) / len(union) * self.__endpoint_data[word]
-            if word_to_compare in word or word in word_to_compare:
-                result_map[word] = result_map[word] * math.sqrt(result_map[word])
+            if word_to_compare in word.lower() or word.lower() in word_to_compare:
+                result_map[word] = result_map[word] * result_map[word]
 
             result_map[word] = self.__sigmoid_normalize(result_map[word])
 

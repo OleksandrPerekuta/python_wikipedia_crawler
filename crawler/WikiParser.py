@@ -31,7 +31,8 @@ class WikiParser:
                     word = a_tag.get_text()
                     clean_word = re.sub(r'\W+', '', word).lower()
 
-                    if clean_word and re.match(r'^/wiki/\w+:.*', link) is None:
+                    if clean_word and (re.match(r'^/wiki/\w+:.*', link) is None or
+                                       re.match(r'^/wiki/Category:.*', link) is not None):
                         words_with_links[clean_word] = WikiParser.get_formatted_link(link)
 
         return words_with_links
