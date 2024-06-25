@@ -51,6 +51,7 @@ class PathVisualisation(ft.Column):
             alignment=ft.alignment.center,
             margin=ft.margin.only(top=0, bottom=0),
             on_click=lambda _: webbrowser.open_new_tab(node[1]),
+            padding=ft.padding.all(2),
         )
         self.controls.append(circle)
 

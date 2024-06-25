@@ -32,7 +32,7 @@ class InputController(ft.Column):
         self.width_factor = 0.25
 
         self.targetText = ft.Text("Target page:", size=self.text_size, width=120)
-        self.targetInput = ft.TextField(hint_text="Enter URL", value="https://en.wikipedia.org/wiki/Adolf_Hitler")
+        self.targetInput = ft.TextField(hint_text="Enter URL")
         self.targetRow = ft.Row(
             [
                 self.targetText,
@@ -41,7 +41,7 @@ class InputController(ft.Column):
         )
 
         self.sourceText = ft.Text("Source page:", size=self.text_size, width=120)
-        self.sourceInput = ft.TextField(hint_text="Enter URL", value="https://en.wikipedia.org/wiki/Italy")
+        self.sourceInput = ft.TextField(hint_text="Enter URL")
         self.sourceRow = ft.Row(
             [
                 self.sourceText,
