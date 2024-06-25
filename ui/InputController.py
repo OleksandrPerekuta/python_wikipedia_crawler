@@ -52,12 +52,6 @@ class InputController(ft.Column):
         self.sliderText = ft.Text("Depth: 2", size=self.text_size, width=120)
 
         def on_change(e):
-            """
-            Callback function to update the displayed depth value when the slider is adjusted.
-
-            Args:
-                e (ft.Event): The event object containing the new slider value.
-            """
             self.sliderText.value = f"Depth: {int(e.control.value)}"
             self.sliderText.update()
 
@@ -105,13 +99,16 @@ class InputController(ft.Column):
             self.visualisationColumn.clear()
             return
 
+
         if not path:
             self.dialog.set_message("Path not found")
             self.dialog.show()
             self.visualisationColumn.clear()
             return
 
-        # self.visualisationColumn.set_path(path)
+        #self.visualisationColumn.set_path(path)
+
+
 
     def validate_links(self, target, source):
         """
@@ -127,8 +124,7 @@ class InputController(ft.Column):
         if not target or not source:
             return False
 
-        if not target.startswith("https://en.wikipedia.org/wiki/") or not source.startswith(
-                "https://en.wikipedia.org/wiki/"):
+        if not target.startswith("https://en.wikipedia.org/wiki/") or not source.startswith("https://en.wikipedia.org/wiki/"):
             return False
 
         return True
