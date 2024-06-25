@@ -52,12 +52,6 @@ class InputController(ft.Column):
         self.sliderText = ft.Text("Depth: 2", size=self.text_size, width=120)
 
         def on_change(e):
-            """
-            Callback function to update the displayed depth value when the slider is adjusted.
-
-            Args:
-                e (ft.Event): The event object containing the new slider value.
-            """
             self.sliderText.value = f"Depth: {int(e.control.value)}"
             self.sliderText.update()
 
@@ -80,10 +74,6 @@ class InputController(ft.Column):
         ]
 
     def search(self):
-        """
-        Initiates the search operation. Validates URLs, clears previous visualizations, handles the crawl process,
-        and manages error and status messaging through the dialog window.
-        """
         valid = self.validate_links(self.targetInput.value, self.sourceInput.value)
 
         if not valid:
@@ -105,30 +95,22 @@ class InputController(ft.Column):
             self.visualisationColumn.clear()
             return
 
+
         if not path:
             self.dialog.set_message("Path not found")
             self.dialog.show()
             self.visualisationColumn.clear()
             return
 
-        # self.visualisationColumn.set_path(path)
+        #self.visualisationColumn.set_path(path)
+
+
 
     def validate_links(self, target, source):
-        """
-        Validates the provided URLs to ensure they are in the expected format for Wikipedia.
-
-        Args:
-            target (str): The target Wikipedia URL.
-            source (str): The source Wikipedia URL.
-
-        Returns:
-            bool: True if both URLs are valid Wikipedia URLs, False otherwise.
-        """
         if not target or not source:
             return False
 
-        if not target.startswith("https://en.wikipedia.org/wiki/") or not source.startswith(
-                "https://en.wikipedia.org/wiki/"):
+        if not target.startswith("https://en.wikipedia.org/wiki/") or not source.startswith("https://en.wikipedia.org/wiki/"):
             return False
 
         return True

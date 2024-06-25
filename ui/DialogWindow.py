@@ -29,7 +29,7 @@ class DialogWindow(ft.Container):
         self.alignment = ft.alignment.center
         self.expand = True
         self.visible = False
-        self.height = 500 # єбать я костиль вєбав
+        self.height = 500
 
     def set_message(self, message):
         print(message)
