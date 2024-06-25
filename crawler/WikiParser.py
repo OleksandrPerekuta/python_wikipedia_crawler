@@ -7,7 +7,16 @@ import urllib.parse
 
 class WikiParser:
     @staticmethod
-    def get_words_with_links(url):
+    def get_words_with_links(url: str):
+        """
+        Retrieve words and their corresponding Wikipedia links from the specified URL.
+
+        Parameters:
+        url (str) -- The URL of the Wikipedia page to parse.
+
+        Returns:
+        dict -- A dictionary where keys are cleaned words and values are the full Wikipedia links.
+        """
         response = requests.get(url)
 
         soup = BeautifulSoup(response.text, 'lxml')
@@ -27,7 +36,16 @@ class WikiParser:
         return words_with_links
 
     @staticmethod
-    def get_all_words(url):
+    def get_all_words(url: str):
+        """
+        Retrieve all words and their frequencies from the specified Wikipedia page.
+
+        Parameters:
+        url (str) -- The URL of the Wikipedia page to parse.
+
+        Returns:
+        dict -- A dictionary where keys are words and values are their respective frequencies.
+        """
         response = requests.get(url)
 
         soup = BeautifulSoup(response.text, 'lxml')
@@ -45,11 +63,29 @@ class WikiParser:
 
     @staticmethod
     def get_formatted_link(link: str):
+        """
+        Retrieve all words and their frequencies from the specified Wikipedia page.
+
+        Parameters:
+        url (str) -- The URL of the Wikipedia page to parse.
+
+        Returns:
+        dict -- A dictionary where keys are words and values are their respective frequencies.
+        """
         start, sep, end = link.partition("/wiki")
         return "https://en.wikipedia.org" + sep + end
 
     @staticmethod
-    def get_wiki_url_name(url):
+    def get_wiki_url_name(url: str):
+        """
+        Extract and decode the Wikipedia article name from the URL.
+
+        Parameters:
+        url (str) -- The full URL of the Wikipedia page.
+
+        Returns:
+        str -- The decoded Wikipedia article name.
+        """
         wiki_index = url.find("/wiki/")
         cut_link = url[wiki_index + 6:]
         formatted_string = cut_link.replace('_', ' ')
