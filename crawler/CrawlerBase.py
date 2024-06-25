@@ -37,8 +37,11 @@ class CrawlerBase:
         self.__endpoint_data = WikiParser.get_all_words(endpoint_link)
         self.__visited_links = [start_link]
 
-        next_page = "Start", start_link
-        print("Start: ", next_page[1])
+        next_page = 'Start', start_link
+        print('Source: ', next_page[1])
+        print('Target: ', next_page[1])
+        print('--------------------------------------------------------------')
+        print('\tStart: ', next_page[1])
         if add_node:
             add_node(next_page, to_paint=False)
 
@@ -46,10 +49,12 @@ class CrawlerBase:
             next_page = self.__get_next(next_page[1])
             if add_node:
                 add_node(next_page)
-            print("\t--", next_page)
+            print('\t\t--', next_page)
             if self.__end_page == next_page[1]:
+                print('--------------------------------------------------------------')
                 return self.__visited_links
 
+        print('--------------------------------------------------------------')
         return []
 
     def __get_next(self, page_link: str):
@@ -71,7 +76,7 @@ class CrawlerBase:
                     break
 
         if len(links_map) == 0:
-            raise Exception("Something went wrong")
+            raise Exception('Something went wrong')
 
         max_heap = MaxHeap()
         for key, value in links_map.items():

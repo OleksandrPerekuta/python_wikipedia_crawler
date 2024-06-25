@@ -30,7 +30,8 @@ class WikiParser:
                 if link.startswith('/wiki/'):
                     word = a_tag.get_text()
                     clean_word = re.sub(r'\W+', '', word).lower()
-                    if clean_word:
+
+                    if clean_word and re.match(r'^/wiki/\w+:.*', link) is None:
                         words_with_links[clean_word] = WikiParser.get_formatted_link(link)
 
         return words_with_links
@@ -72,8 +73,8 @@ class WikiParser:
         Returns:
         dict -- A dictionary where keys are words and values are their respective frequencies.
         """
-        start, sep, end = link.partition("/wiki")
-        return "https://en.wikipedia.org" + sep + end
+        start, sep, end = link.partition('/wiki')
+        return 'https://en.wikipedia.org' + sep + end
 
     @staticmethod
     def get_wiki_url_name(url: str):
@@ -86,7 +87,7 @@ class WikiParser:
         Returns:
         str -- The decoded Wikipedia article name.
         """
-        wiki_index = url.find("/wiki/")
+        wiki_index = url.find('/wiki/')
         cut_link = url[wiki_index + 6:]
         formatted_string = cut_link.replace('_', ' ')
         decoded_link = urllib.parse.unquote(formatted_string)
