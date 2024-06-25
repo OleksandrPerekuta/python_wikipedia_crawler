@@ -13,5 +13,7 @@ flet run
 
 ## Authors
 Mykhailo Paniotov, s28254@pjwstk.edu.pl
+
 Vladyslav Kalynchenko, s28409@pjwstk.edu.pl
+
 Oleksandr Perekuta, s29072@pjwstk.edu.pl
