@@ -97,7 +97,8 @@ class CrawlerBase:
 
         return first_word, links_map[first_word]
 
-    def __normalize(self, x: float):
+    @staticmethod
+    def __sigmoid_normalize(x: float):
         """
         Normalize a value using the sigmoid function.
 
