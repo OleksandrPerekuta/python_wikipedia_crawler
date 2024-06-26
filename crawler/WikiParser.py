@@ -59,7 +59,7 @@ class WikiParser:
             text_content = ' '.join(body_content.stripped_strings)
             words = re.findall(r'\b\w+\b', text_content.lower())
             for word in words:
-                word_count[word] += 1
+                word_count[word.lower()] += 1
 
         return dict(word_count)
 
