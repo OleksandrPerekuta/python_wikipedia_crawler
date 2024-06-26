@@ -131,6 +131,6 @@ class CrawlerBase:
             if word in word_to_compare or word_to_compare in word:
                 alpha += math.log10(result_map[word] if result_map[word] > 0 else 1)
 
-            result_map[word] = self.__normalize(result_map[word])
+            result_map[word] = self.__sigmoid_normalize(result_map[word])
 
         return sum(result_map.values()) * alpha / len(result_map) * 100
