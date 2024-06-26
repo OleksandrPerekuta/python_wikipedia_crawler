@@ -18,6 +18,7 @@ class CrawlerBase:
         self.__end_page = None
         self.__endpoint_data = None
         self.__visited_links = None
+        self.most_frequent_word = None
 
     def crawl(self, start_link: str, endpoint_link: str, pages_depth: int, add_node: callable = None):
         """
@@ -36,6 +37,7 @@ class CrawlerBase:
         self.__end_page = str(endpoint_link)
         self.__endpoint_data = WikiParser.get_all_words(endpoint_link)
         self.__visited_links = [start_link]
+        self.most_frequent_word = max(self.__endpoint_data.values())
 
         next_page = 'Start', start_link
         print('Source: ', start_link)
@@ -80,7 +82,7 @@ class CrawlerBase:
 
         max_heap = MaxHeap()
         for key, value in links_map.items():
-            if self.__end_page in value:
+            if self.__end_page == value:
                 self.__visited_links.append(value)
                 return key, value
 
@@ -95,8 +97,7 @@ class CrawlerBase:
 
         return first_word, links_map[first_word]
 
-    @staticmethod
-    def __sigmoid_normalize(x: float):
+    def __normalize(self, x: float):
         """
         Normalize a value using the sigmoid function.
 
@@ -119,15 +120,16 @@ class CrawlerBase:
         float -- The calculated similarity rate.
         """
         result_map = {}
+        alpha = 1
         for word in self.__endpoint_data:
             set_a = set(word_to_compare)
             set_b = set(word)
             intersection = set_a.intersection(set_b)
             union = set_a.union(set_b)
             result_map[word] = len(intersection) / len(union) * self.__endpoint_data[word]
-            if word_to_compare in word.lower() or word.lower() in word_to_compare:
-                result_map[word] = result_map[word] * result_map[word]
+            if word in word_to_compare or word_to_compare in word:
+                alpha += math.log10(result_map[word] if result_map[word] > 0 else 1)
 
-            result_map[word] = self.__sigmoid_normalize(result_map[word])
+            result_map[word] = self.__normalize(result_map[word])
 
-        return sum(result_map.values()) / len(result_map) * 100
+        return sum(result_map.values()) * alpha / len(result_map) * 100
